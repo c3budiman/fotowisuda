@@ -1,14 +1,25 @@
 # fotowisuda
-Web aplikasi untuk menggrayscale foto dan me resize foto, agar dapat dipakai untuk buku tahunan
+<p align="center"><img src="https://www.c3budiman.web.id/public/img/fotowisudatools.png"></p>
+Web aplikasi untuk mempermudah pengerjaan buku tahunan
 
-How to pakai :
-
+How to install :
 1. clone, 
+<pre>
 git clone http://github.com/c3budiman/fotowisuda.git
-2. cd fotowisuda
-3. composer install
-4. composer update
-5. buat symlink atau copy folder yang berisi foto ke public dan rename jadi 'foto'
+</pre>
+2. cd,
+<pre>
+cd fotowisuda
+</pre>
+3. composer update, untuk install laravel dll nya....
+<pre>
+composer update
+</pre>
+4. Konfigurasi file .env
+5. Konfigurasi direktoriController
 6. buat folder result dan set permission 0777
 7. php artisan serve
-8. masukkan npm and done..... 
+8. pilih tools yg ingin dipakai
+
+How to use :
+later.....
