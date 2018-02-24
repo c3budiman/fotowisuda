@@ -1,5 +1,5 @@
 # fotowisuda
-<p align="center"><img src="https://www.c3budiman.web.id/public/img/fotowisudatools.png"></p>
+<p align="center"><img src="https://i.imgur.com/iZvvaI5.png"></p>
 Web aplikasi untuk mempermudah pengerjaan buku tahunan
 
 How to install :
