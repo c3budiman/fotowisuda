@@ -4,19 +4,22 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Exception;
+use DB;
+use App\Folder;
 
 class direktoriController extends Controller
 {
     //proses utama, cek foto -> resize -> hitamkan -> copy
     public function proses(Request $request) {
+      $pengaturan = DB::table('folder')->where('id','=','1')->get()->first();
       //yg perlu di edit -> $dirfotonya = folder asal foto
       //$dirResult = folder dimana menyimpan hasil itemin
-      $dirfotonya = public_path('/foto2012');
+      $dirfotonya = public_path($pengaturan->FolderAsal);
       $fotoArray = scandir($dirfotonya,1);
       // return var_dump($dirfotonya);
       $npmDicari = $request->npm;
       $npmArray = explode(",",$npmDicari);
-      $dirResult = public_path('/result');
+      $dirResult = public_path($pengaturan->FolderHasil);
       $fotoerror = "";
       $errornya = false;
 
@@ -27,7 +30,7 @@ class direktoriController extends Controller
             // echo "Ketemu ". $npm."<br>";
             $fotoKetemu = $dirfotonya . "/" . $foto;
             $fotoBaru = $dirResult ."/" . $foto;
-            $dirError = public_path('/resultGagal');
+            $dirError = public_path($pengaturan->FolderGagal);
             $fotoError = $dirError . "/" .$foto;
             //fungsi copy image yg ditemukan ke folder result
             if(copy($fotoKetemu, $fotoBaru)){
@@ -108,9 +111,10 @@ class direktoriController extends Controller
 
     //tanpa nge cek npm, langsung hitamkan foto yg di folder
     public function proseslangsung() {
-      $dirfotonya = public_path('/fotohilang2');
+      $pengaturan = DB::table('folder')->where('id','=','1')->get()->first();
+      $dirfotonya = public_path($pengaturan->FolderAsal);
       $fotoArray = scandir($dirfotonya,1);
-      $dirResult = public_path('/result');
+      $dirResult = public_path($pengaturan->FolderHasil);
 
       foreach ($fotoArray as $foto) {
           $npmfoto = str_replace(".jpg","",$foto);
@@ -119,7 +123,7 @@ class direktoriController extends Controller
             // echo "Ketemu ". $npm."<br>";
             $fotoKetemu = $dirfotonya . "/" . $foto;
             $fotoBaru = $dirResult ."/" . $foto;
-            $dirError = public_path('/resultGagal');
+            $dirError = public_path($pengaturan->FolderGagal);
             $fotoError = $dirError . "/" .$foto;
             //fungsi copy image yg ditemukan ke folder result
             if(copy($fotoKetemu, $fotoBaru)){
@@ -198,11 +202,12 @@ class direktoriController extends Controller
 
     //proses 2 kalo image nya bandel ga bisa di exif....
     public function proses2(){
-      $dirfotonya = public_path('/gagal/');
+      $pengaturan = DB::table('folder')->where('id','=','1')->get()->first();
+      $dirfotonya = public_path($pengaturan->FolderAsal);
       $fotoArray = scandir($dirfotonya);
       // return var_dump($dirfotonya);
-      $dirResult = public_path('/result/');
-      $dirError = public_path('/resultGagal/');
+      $dirResult = public_path($pengaturan->FolderHasil);
+      $dirError = public_path($pengaturan->FolderGagal);
       $fotoerror = "";
       $errornya = false;
 
@@ -259,7 +264,8 @@ class direktoriController extends Controller
 
     //checker foto yg udah ke kumpul di folder result, apa aja yg masih kurang dari list
     public function matcher(Request $request) {
-       $dirfotonya = public_path('/result');
+       $pengaturan = DB::table('folder')->where('id','=','1')->get()->first();
+       $dirfotonya = public_path($pengaturan->FolderAsal);
        $fotoArray = scandir($dirfotonya);
        $npmDicari = $request->npm;
        $npmArray = explode(",",$npmDicari);
@@ -283,5 +289,21 @@ class direktoriController extends Controller
     //getTheMatcherIndex
     public function matcherIndex() {
       return view('matcher');
+    }
+
+    //Pengaturan
+    public function GetPengaturan () {
+      $pengaturan = DB::table('folder')->where('id','=','1')->get()->first();
+      return view('pengaturan', ['pengaturan'=>$pengaturan]);
+    }
+
+    public function UpdatePengaturan(Request $request) {
+      $folder = Folder::find(1);
+      $folder->FolderAsal = $request->FolderAsal;
+      $folder->FolderHasil = $request->FolderResult;
+      $folder->FolderGagal = $request->FolderGagal;
+      $folder->FolderDownload = $request->FolderDownload;
+      $folder->save();
+      return redirect('pengaturan');
     }
 }

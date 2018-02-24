@@ -9,6 +9,12 @@
 
     <div class="container">
       <div class="row">
+        <a style="" href="/" class="btn btn-info">Home</a>
+        <a class="btn btn-primary" href="/fotograyscale">Checker and Grayscale</a>
+        <a style="" class="btn btn-warning" href="/matcher">Count And List Missing</a>
+        <a style="" class="btn btn-success" href="/datadbf">Data DBF Getter</a>
+      </div>
+      <div class="row">
         <h1 class="page-header">Foto Grayscale And Resize <small>by c3budiman</small></h1>
       </div>
       <div class="row">
